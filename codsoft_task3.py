@@ -11,7 +11,7 @@ from sklearn.preprocessing import LabelEncoder
 
 # Function to parse the data
 def parse_data(file_path, has_genre=True):
-    data = []
+    info = []
     with open(file_path, 'r') as file:
         for line in file:
             parts = line.strip().split(' ::: ')
