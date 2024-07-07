@@ -8,38 +8,38 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import random
 
 # Load and preprocess the dataset (replace with your dataset path)
-df = pd.read_csv('path_to_your_dataset.csv')
+data = pd.read_csv('path_to_your_dataset.csv')
 
 # Example: Assuming 'text' column contains the handwritten text
-texts = df['text'].tolist()
+texts = data['text'].tolist()
 
 # Tokenize characters
-tokenizer = Tokenizer(char_level=True)
-tokenizer.fit_on_texts(texts)
+tokenize = Tokenizer(char_level=True)
+tokenize.fit_on_texts(texts)
 
 # Total number of unique characters
-num_chars = len(tokenizer.word_index) + 1
+number_chars = len(tokenize.word_index) + 1
 
 # Convert text to sequences of integers
-sequences = tokenizer.texts_to_sequences(texts)
+sequence = tokenize.texts_to_sequences(texts)
 
 # Pad sequences to ensure uniform length
-max_length = max([len(seq) for seq in sequences])
-sequences = pad_sequences(sequences, maxlen=max_length, padding='post')
+max_length = max([len(seq) for seq in sequence])
+sequence = pad_sequences(sequence, maxlen=max_length, padding='post')
 
 # Prepare input-output pairs
-X = sequences[:, :-1]
-y = sequences[:, -1]
+X = sequence[:, :-1]
+y = sequence[:, -1]
 
 # Convert y to categorical
 y = np.expand_dims(y, axis=-1)
 
 # Define the RNN model
 model = Sequential([
-    Embedding(num_chars, 50, input_length=max_length-1),
+    Embedding(number_chars, 50, input_length=max_length-1),
     Bidirectional(LSTM(256, return_sequences=True)),
     Bidirectional(LSTM(256)),
-    Dense(num_chars, activation='softmax')
+    Dense(number_chars, activation='softmax')
 ])
 
 model.compile(loss='sparse_categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
@@ -56,7 +56,7 @@ model.fit(X, y, epochs=50, batch_size=128, callbacks=[checkpoint])
 def generate_text(seed_text, next_words, model, max_sequence_len, temperature=1.0):
     generated_text = seed_text
     for _ in range(next_words):
-        token_list = tokenizer.texts_to_sequences([seed_text])[0]
+        token_list = tokenize.texts_to_sequences([seed_text])[0]
         token_list = pad_sequences([token_list], maxlen=max_sequence_len-1, padding='post')
         predictions = model.predict(token_list, verbose=0)[0]
         
