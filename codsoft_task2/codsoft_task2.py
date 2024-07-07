@@ -12,18 +12,18 @@ from sklearn.metrics import classification_report, accuracy_score, confusion_mat
 from sklearn.preprocessing import LabelEncoder
 
 # Load the dataset
-url = 'https://raw.githubusercontent.com/uciml/sms-spam-collection-dataset/master/spam.csv'
-df = pd.read_csv(url, encoding='latin-1')
+link = 'https://raw.githubusercontent.com/uciml/sms-spam-collection-dataset/master/spam.csv'
+data = pd.read_csv(link, encoding='latin-1')
 
 # Clean and preprocess the data
-df = df.drop(columns=["Unnamed: 2", "Unnamed: 3", "Unnamed: 4"])  # Drop unnecessary columns
-df.columns = ['label', 'message']  # Rename columns for clarity
+data = data.drop(columns=["Unnamed: 2", "Unnamed: 3", "Unnamed: 4"])  # Drop unnecessary columns
+data.columns = ['label', 'message']  # Rename columns for clarity
 
 # Map labels to binary values: 'spam' -> 1, 'ham' -> 0
-df['label'] = df['label'].map({'spam': 1, 'ham': 0})
+data['label'] = data['label'].map({'spam': 1, 'ham': 0})
 
 # Splitting data into train and test sets
-X_train, X_test, y_train, y_test = train_test_split(df['message'], df['label'], test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(data['message'], data['label'], test_size=0.2, random_state=42)
 
 # Custom feature engineering (optional)
 # Example: Length of messages
