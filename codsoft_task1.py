@@ -69,7 +69,7 @@ def generate_text(seed_text, next_words, model, max_sequence_len, temperature=1.
         predicted_id = np.random.choice(len(predictions), p=predictions)
         
         output_word = ""
-        for word, index in tokenizer.word_index.items():
+        for word, index in tokenize.word_index.items():
             if index == predicted_id:
                 output_word = word
                 break
