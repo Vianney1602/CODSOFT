@@ -28,7 +28,7 @@ print(set['Exited'].value_counts())  # Assuming 'Exited' is the target variable
 set = set.drop(['RowNumber', 'CustomerId', 'Surname'], axis=1)
 
 # Encode categorical variables
-set = pd.get_dummies(df, drop_first=True)
+set = pd.get_dummies(set, drop_first=True)
 
 # Custom Feature Engineering
 set['BalanceSalaryRatio'] = set['Balance'] / set['EstimatedSalary']
