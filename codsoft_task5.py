@@ -11,33 +11,33 @@ from sklearn.pipeline import Pipeline
 import shap
 
 # Load the dataset
-df = pd.read_csv('Churn_Modelling.csv')
+set = pd.read_csv('Churn_Modelling.csv')
 
 # Display first few rows and info
 print("First few rows of the dataset:")
-print(df.head())
+print(set.head())
 print("\nDataset information:")
-print(df.info())
+print(set.info())
 print("\nDescriptive statistics of numerical columns:")
-print(df.describe())
+print(set.describe())
 print("\nTarget variable counts:")
-print(df['Exited'].value_counts())  # Assuming 'Exited' is the target variable
+print(set['Exited'].value_counts())  # Assuming 'Exited' is the target variable
 
 # Data Preprocessing
 # Drop irrelevant columns
-df = df.drop(['RowNumber', 'CustomerId', 'Surname'], axis=1)
+set = set.drop(['RowNumber', 'CustomerId', 'Surname'], axis=1)
 
 # Encode categorical variables
-df = pd.get_dummies(df, drop_first=True)
+set = pd.get_dummies(df, drop_first=True)
 
 # Custom Feature Engineering
-df['BalanceSalaryRatio'] = df['Balance'] / df['EstimatedSalary']
-df['TenureByAge'] = df['Tenure'] / df['Age']
-df['CreditScoreGivenAge'] = df['CreditScore'] / df['Age']
+set['BalanceSalaryRatio'] = set['Balance'] / set['EstimatedSalary']
+set['TenureByAge'] = set['Tenure'] / set['Age']
+set['CreditScoreGivenAge'] = set['CreditScore'] / set['Age']
 
 # Separate features and target variable
-X = df.drop('Exited', axis=1)
-y = df['Exited']
+X = set.drop('Exited', axis=1)
+y = set['Exited']
 
 # Split the dataset into training and testing sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
@@ -83,10 +83,10 @@ if isinstance(best_model.named_steps['classifier'], RandomForestClassifier):
     random_forest = best_model.named_steps['classifier']
     feature_importances = random_forest.feature_importances_
     features = X.columns
-    importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances}).sort_values(by='Importance', ascending=False)
+    importance_info = pd.DataFrame({'Feature': features, 'Importance': feature_importances}).sort_values(by='Importance', ascending=False)
 
     plt.figure(figsize=(10, 8))
-    sns.barplot(x='Importance', y='Feature', data=importance_df)
+    sns.barplot(x='Importance', y='Feature', data=importance_info)
     plt.title('Feature Importances from Random Forest')
     plt.xlabel('Importance')
     plt.ylabel('Feature')
