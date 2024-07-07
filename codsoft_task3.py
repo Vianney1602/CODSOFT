@@ -16,10 +16,10 @@ def parse_data(file_path, has_genre=True):
         for line in file:
             parts = line.strip().split(' ::: ')
             if has_genre and len(parts) == 4:
-                data.append(parts)
+                info.append(parts)
             elif not has_genre and len(parts) == 3:
-                data.append(parts)
-    return data
+                info.append(parts)
+    return info
 
 # Function to preprocess text
 def preprocess_text(text):
