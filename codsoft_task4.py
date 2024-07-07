@@ -11,24 +11,24 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 # Load the dataset
-df = pd.read_csv('creditcard.csv')
+info = pd.read_csv('creditcard.csv')
 
 # Explore the dataset
-print(df.head())
-print(df.info())
-print(df.describe())
-print(df['Class'].value_counts())  # Assuming 'Class' is the target variable
+print(info.head())
+print(info.info())
+print(info.describe())
+print(info['Class'].value_counts())  # Assuming 'Class' is the target variable
 
 # Handle missing values
-df.fillna(method='ffill', inplace=True)
+info.fillna(method='ffill', inplace=True)
 
 # Separate features and target variable
-X = df.drop('Class', axis=1)
-y = df['Class']
+X = info.drop('Class', axis=1)
+y = info['Class']
 
 # Scale numerical features
-scaler = StandardScaler()
-X_scaled = scaler.fit_transform(X)
+scale = StandardScaler()
+X_scaled = scale.fit_transform(X)
 
 # Handle class imbalance using SMOTE
 smote = SMOTE(random_state=42)
@@ -75,10 +75,10 @@ print("ROC-AUC Score:", roc_auc_score(y_test, y_pred_forest))
 
 # Feature Importance (Random Forest)
 feature_importances = random_forest.feature_importances_
-features = df.drop('Class', axis=1).columns
-importance_df = pd.DataFrame({'Feature': features, 'Importance': feature_importances}).sort_values(by='Importance', ascending=False)
+features = info.drop('Class', axis=1).columns
+importance_info = pd.DataFrame({'Feature': features, 'Importance': feature_importances}).sort_values(by='Importance', ascending=False)
 
 plt.figure(figsize=(10, 8))
-sns.barplot(x='Importance', y='Feature', data=importance_df)
+sns.barplot(x='Importance', y='Feature', data=importance_info)
 plt.title('Feature Importances from Random Forest')
 plt.show()
